@@ -8,7 +8,7 @@
 
 include '../config/connect_pdo.php';
 include 'token.php';
-include '../config/check_param_empty.php';
+include '../config/check.php';
 
 $name = $_REQUEST['name'];
 $password = $_REQUEST['password'];
@@ -19,7 +19,7 @@ $avatar = $_REQUEST['avatar'];
 check_empty($name, $password, $code, $number, $avatar);
 
 $query_sql = "SELECT * FROM user WHERE number='$number' OR name='$name'";
-$check_repeat = $pdo_connect_db->query($query_sql);    //返回影响的条目数
+$check_repeat = $pdo_connect->query($query_sql);    //返回影响的条目数
 
 if ($check_repeat->rowCount() > 0) {
     $result['info'] = "已注册";
@@ -29,7 +29,7 @@ if ($check_repeat->rowCount() > 0) {
     $token_str = $token->get_token($name, "go");
 
     $insert_sql = "insert into user (name,password,number,avatar,token) values('$name','$password','$number','$avatar','$token_str')";
-    $insert_user = $pdo_connect_db->exec($insert_sql);
+    $insert_user = $pdo_connect->exec($insert_sql);
 
     if ($insert_user) {
         $result['info'] = "success";

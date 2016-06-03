@@ -6,28 +6,31 @@
  * Time: 10:16
  */
 
-include '../config/connect_pdo.php';
-
 $query_sql = "SELECT * FROM picture ORDER BY collection_count*5+watch_count ASC LIMIT 10";
-$query_result = $pdo_connect_db->query($query_sql);
+$query_result = $pdo_connect->query($query_sql);
 $result_rows = $query_result->fetchAll();
 
 $result = array();
-foreach($result_rows as $row){
-    
-    $result['id'] = $row['id'];
-    $result['name'] = $row['name'];
-    $result['intro'] = $row['intro'];
-    $result['width'] = $row['width'];
-    $result['height'] = $row['height'];
-    $result['src'] = $row['src'];
-    $result['author_id'] = $row['author_id'];
-    $result['tag'] = $row['tag'];
-    $result['score'] = $row['score'];
-    $result['watch_count'] = $row['watch_count'];
-    $result['collection_count'] = $row['collection_count'];
-    $result['album_id'] = $row['album_id'];
-    $result['create_time'] = strtotime($row['create_time']);
+$index = 0;
 
+foreach($result_rows as $row){
+
+    $temp = array();
+    $temp['id'] = $row['id'];
+    $temp['name'] = $row['name'];
+    $temp['intro'] = $row['intro'];
+    $temp['width'] = $row['width'];
+    $temp['height'] = $row['height'];
+    $temp['src'] = $row['src'];
+    $temp['author_id'] = $row['author_id'];
+    $temp['tag'] = $row['tag'];
+    $temp['score'] = $row['score'];
+    $temp['watch_count'] = $row['watch_count'];
+    $temp['collection_count'] = $row['collection_count'];
+    $temp['album_id'] = $row['album_id'];
+    $temp['create_time'] = strtotime($row['create_time']);
+
+    $result[$index] = $temp;
+    $index ++;
 }
 echo json_encode($result);

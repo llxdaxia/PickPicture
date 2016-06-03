@@ -7,7 +7,7 @@
  */
 
 include '../config/connect_pdo.php';
-include '../config/check_param_empty.php';
+include '../config/check.php';
 
 $page = $_REQUEST['page'];
 
@@ -17,7 +17,7 @@ $start = ($page - 1) * 20;
 $end = $page * 20;
 
 $query_sql = "SELECT * FROM picture LIMIT $start,$end";
-$query_result = $pdo_connect_db->query($query_sql);
+$query_result = $pdo_connect->query($query_sql);
 
 //echo $pdo_connect_db->errorCode();
 //echo $pdo_connect_db->errorInfo();

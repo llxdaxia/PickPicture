@@ -7,7 +7,7 @@
  */
 
 include '../config/connect_mysqli.php';
-include '../config/check_param_empty.php';
+include '../config/check.php';
 
 $number = $_POST['number'];
 $password = $_POST['password'];
@@ -16,7 +16,7 @@ check_empty($number,$password);
 
 $login_sql = "select * from user where number = $number and password = $password limit 1";
 
-$query_result = mysqli_query($mysqli_connection,$login_sql);  
+$query_result = mysqli_query($mysqli_connect,$login_sql);  
 
 $rows = mysqli_fetch_array($query_result);
 

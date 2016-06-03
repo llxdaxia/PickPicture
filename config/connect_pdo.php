@@ -12,8 +12,8 @@ $password = "Lemon";
 $opt = array(PDO::ATTR_PERSISTENT => true); //持久连接
 
 try{
-    $pdo_connect_db = new PDO($dsn, $user, $password,$opt);
-    $pdo_connect_db->query("set names utf8");
+    $pdo_connect = new PDO($dsn, $user, $password,$opt);
+    $pdo_connect->query("set names utf8");
 }catch (PDOException $e){
     echo  '数据库连接失败 : '.$e->getMessage();
 }

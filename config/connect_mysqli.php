@@ -14,10 +14,10 @@ $password = "Lemon";
 $database_name = "pick_picture";
 
 // 创建连接
-$mysqli_connection = new mysqli($server_name, $username, $password,$database_name);
-mysqli_query($mysqli_connection,"set names utf8");
+$mysqli_connect = new mysqli($server_name, $username, $password,$database_name);
+mysqli_query($mysqli_connect,"set names utf8");
 
 // 检测连接
-if ($mysqli_connection->connect_error) {
-    die("Connection failed: " . $mysqli_connection->connect_error);
+if ($mysqli_connect->connect_error) {
+    die("Connection failed: " . $mysqli_connect->connect_error);
 }
