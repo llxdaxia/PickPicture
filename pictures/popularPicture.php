@@ -5,17 +5,16 @@
  * Date: 2016/6/3
  * Time: 10:16
  */
+include '../config/connect_pdo.php';
 
 $query_sql = "SELECT * FROM picture ORDER BY collection_count*5+watch_count ASC LIMIT 10";
 $query_result = $pdo_connect->query($query_sql);
 $result_rows = $query_result->fetchAll();
 
-$result = array();
 $index = 0;
 
 foreach($result_rows as $row){
 
-    $temp = array();
     $temp['id'] = $row['id'];
     $temp['name'] = $row['name'];
     $temp['intro'] = $row['intro'];

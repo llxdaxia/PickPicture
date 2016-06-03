@@ -6,34 +6,34 @@
  * Time: 10:40
  */
 
-include '../config/connect_mysqli.php';
+include '../config/connect_pdo.php';
 include '../config/check.php';
 
 $number = $_POST['number'];
 $password = $_POST['password'];
 
 check_empty($number,$password);
+check_not_exist($pdo_connect,"user","number",$number);
 
-$login_sql = "select * from user where number = $number and password = $password limit 1";
+$login_sql = "select * from user where number = $number and password = $password LIMIT 1";
 
-$query_result = mysqli_query($mysqli_connect,$login_sql);  
+$query_result = $pdo_connect->query($login_sql);
 
-$rows = mysqli_fetch_array($query_result);
-
-if ($rows) {
+if($query_result->rowCount() > 0){
+    $result_row = $query_result->fetch();
     $result = array(
-        'id' => $rows ['id'],
-        'number' => $rows ['number'],
-        'password' => $rows ['password'],
-        'name' => $rows ['name'],
-        'avatar' => $rows ['avatar'],
-        'gender' => $rows ['gender'],
-        'intro' => $rows ['intro'],
-        'token' => strtotime($rows['token'])
+        'id' => $result_row ['id'],
+        'number' => $result_row ['number'],
+        'password' => $result_row ['password'],
+        'name' => $result_row ['name'],
+        'avatar' => $result_row ['avatar'],
+        'gender' => $result_row ['gender'],
+        'intro' => $result_row ['intro'],
+        'token' => strtotime($result_row['token'])
     );
-} else {
+}else{
     $result = array(
-        'error' => "没有此用户"
+        'error' => "用户名或密码错误"
     );
 }
 

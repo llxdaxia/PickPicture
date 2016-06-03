@@ -96,14 +96,14 @@ password
 ##注册
 
 参数：
-number
-password
-code
-name
-avatar
+ - number
+ - password
+ - code
+ - name
+ - avatar
 
-返回：
-info
+返回
+ - info
 
 
 ##popularPicture 取热门推荐
@@ -111,33 +111,39 @@ info
 参数：无
 
 返回
-picture[]
+ - picture[]
 
 
 ##recommendPicture 取推荐图片
 算法未定
-参数：page
+参数
+ - page
+
 返回
-picture[]
+ - picture[]
 
 ##pictureDetail 查看图片
 查看时将将图片的所有tag取出，看用户是否已有此tag，有则+1，没有则创建，分数为1.
 返回相关作品，算法未定
+
 参数
-id
+ - id
+
 返回
-picture[]
+ - picture[]
 
 ##grade 评分
 参数
-id
-score
+ - id
+ - score
+
 返回
-info
+ - info
 
 ##userDetail 查看用户信息
 参数
-id
+ - id
+
 返回
 + id
 + number
@@ -154,10 +160,12 @@ id
 
 ##follow 关注
 关注用户
+
 参数
-id   //被关注者id
+ - id   //被关注者id
+
 返回
-info
+ - info
 
 ##updateUserDetail 更新用户资料
 参数
@@ -171,32 +179,37 @@ info
 
 ##createAlbum 创建专辑
 参数
-id //可空，如果没有这个属性，表示新建，如果有表示更新此id的信息
-name
-avatar
-intro
+ - id //可空，如果没有这个属性，表示新建，如果有表示更新此id的信息
+ - name
+ - avatar
+ - intro
+
 返回
-info
+ - info
 
 ##uploadPicture 上传图片
 参数
-src
-name
-intro
-height
-width
-album
-tag eg：人物,游泳,宠物 直接保存即可
+ - src
+ - name
+ - intro
+ - height
+ - width
+ - album_id  //专辑id
+ - tag  //eg：人物,游泳,宠物 直接保存即可
+
 返回
-info
+ - info
 
 ##deletePicture
 参数
-id
+ - id
+
 返回
-info
+ - info
 
 ##deleteAlbum 
 参数
-id
-返回info
+ - id
+
+返回
+ - info
