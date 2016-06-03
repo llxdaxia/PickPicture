@@ -66,22 +66,22 @@
 
 
 #API设计
-header上增加`token`,`UID`2个请求头识别用户。
-标准RestfulAPI。状态为HTTP响应头状态
-200 正常
-info指：{"info":"你随便写些什么，没什么写的写个success"}
-400 参数错误
-401 未授权 比如没有token，或token失效
-403 权限不足 比如去改删别人专辑，信息
-500 服务器内部错误
-所有错误返回error
+ - header上增加`token`,`UID`2个请求头识别用户。
+ - 标准RestfulAPI。状态为HTTP响应头状态
+ - 200 正常
+ - info指：{"info":"你随便写些什么，没什么写的写个success"}
+ - 400 参数错误
+ - 401 未授权 比如没有token，或token失效
+ - 403 权限不足 比如去改删别人专辑，信息
+ - 500 服务器内部错误
+ - 所有错误返回error
 {"error":"解释一下错误原因"}
 
 ##login 登录
 
-参数：
-number
-password
+参数
+ - number
+ - password
 
 返回：
 + id
@@ -108,7 +108,9 @@ password
 
 ##popularPicture 取热门推荐
 将所有图片降序按照规则（collection_count*5+watch_count），返回前10张
-参数：无
+
+参数
+ - 无
 
 返回
  - picture[]
@@ -116,6 +118,7 @@ password
 
 ##recommendPicture 取推荐图片
 算法未定
+
 参数
  - page
 
