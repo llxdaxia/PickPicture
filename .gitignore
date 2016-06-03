@@ -26,3 +26,5 @@ $RECYCLE.BIN/
 *.iml
 out
 gen
+.gitignore
+.idea/workspace.xml
