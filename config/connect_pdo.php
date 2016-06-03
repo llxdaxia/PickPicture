@@ -9,9 +9,11 @@
 $dsn = "mysql:dbname=pick_picture;host=localhost";;
 $user = "Lemon";
 $password = "Lemon";
+$opt = array(PDO::ATTR_PERSISTENT => true); //持久连接
 
 try{
-    $pdo_connect_db = new PDO($dsn, $user, $password);
+    $pdo_connect_db = new PDO($dsn, $user, $password,$opt);
+    $pdo_connect_db->query("set names utf8");
 }catch (PDOException $e){
     echo  '数据库连接失败 : '.$e->getMessage();
 }

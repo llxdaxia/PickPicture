@@ -8,6 +8,7 @@
 
 include '../config/connect_pdo.php';
 include 'token.php';
+include '../config/check_param_empty.php';
 
 $name = $_REQUEST['name'];
 $password = $_REQUEST['password'];
@@ -15,34 +16,26 @@ $code = $_REQUEST['code'];
 $number = $_REQUEST['number'];
 $avatar = $_REQUEST['avatar'];
 
-if ($name == "" || $password == "" || $code == "" || $number == "" || $avatar == "") {
-    header("http/1.1 400 Bad Request");
-    $result["error"] = "参数不能为空";
+check_empty($name, $password, $code, $number, $avatar);
+
+$query_sql = "SELECT * FROM user WHERE number='$number' OR name='$name'";
+$check_repeat = $pdo_connect_db->query($query_sql);    //返回影响的条目数
+
+if ($check_repeat->rowCount() > 0) {
+    $result['info'] = "已注册";
 } else {
 
-    $query_sql = "SELECT * FROM user WHERE number = $number";
-    $check_repeat = $pdo_connect_db->exec($query_sql);    //返回影响的条目数
-    echo $pdo_connect_db->errorCode();
-    echo $pdo_connect_db->errorInfo();
-    if ($check_repeat) {
-        $result['info'] = "已注册";
+    $token = new token();
+    $token_str = $token->get_token($name, "go");
+
+    $insert_sql = "insert into user (name,password,number,avatar,token) values('$name','$password','$number','$avatar','$token_str')";
+    $insert_user = $pdo_connect_db->exec($insert_sql);
+
+    if ($insert_user) {
+        $result['info'] = "success";
     } else {
-
-        $token = new token();
-        $token_str = $token->get_token($name, "go");
-
-        $insert_sql = "insert into user (name,password,number,avatar,token) values('$name','$password','$number','$avatar','$token_str')";
-        $insert_user = $pdo_connect_db->exec($insert_sql);
-        echo $pdo_connect_db->errorCode();
-        echo $pdo_connect_db->errorInfo();
-        if ($insert_user) {
-            $result['info'] = "success";
-        } else {
-            $result['info'] = "failed";
-        }
+        $result['info'] = "failed";
     }
-
-
 }
 
 echo json_encode($result);

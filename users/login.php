@@ -7,16 +7,12 @@
  */
 
 include '../config/connect_mysqli.php';
-include '../config/request.php';
+include '../config/check_param_empty.php';
 
 $number = $_POST['number'];
 $password = $_POST['password'];
 
-if (empty ($number) || empty ($password)) {
-    header("HTTP/1.1 400 'error' => '参数不能为空'");
-    echo '{"error" : "参数错误"}';
-    exit ();
-}
+check_empty($number,$password);
 
 $login_sql = "select * from user where number = $number and password = $password limit 1";
 
