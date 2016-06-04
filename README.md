@@ -93,7 +93,7 @@
 + intro
 + token
 
-##注册
+##register注册
 
 参数：
  - number

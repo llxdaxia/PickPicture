@@ -9,6 +9,7 @@
 include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/header.php';
+include '../config/token.php';
 
 $avatar = $_POST['avatar'];
 $name = $_POST['name'];
@@ -20,7 +21,6 @@ $headers = getallheaders();
 
 $id = get_UID($headers);
 $token = get_token($headers);
-
 check_token_past_due($token);
 
 check_empty($avatar, $name, $gender, $background, $intro);

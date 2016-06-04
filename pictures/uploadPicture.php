@@ -9,6 +9,7 @@
 include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/header.php';
+include '../config/token.php';
 
 $src = $_POST['src'];
 $name = $_POST['name'];

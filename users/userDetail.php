@@ -8,6 +8,8 @@
 
 include '../config/connect_pdo.php';
 include '../config/check.php';
+include '../config/token.php';
+include '../config/header.php';
 
 $headers = getallheaders();
 $uid = get_UID($headers);

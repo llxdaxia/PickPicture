@@ -9,15 +9,17 @@
 include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/header.php';
+include '../config/token.php';
 
 $headers = getallheaders();
 $UID = get_UID($headers);
 $token = get_token($headers);
+check_token_past_due($token);
 
 $id = $_POST['id'];   //可空，如果没有这个属性，表示新建，如果有表示更新此id的信息
 
 $name = $_POST['name'];
-$avatar = $_POST['avatar'];
+$avatar = $_POST['avatar']; 
 $intro = $_POST['intro'];
 
 check_empty($name, $avatar, $intro);

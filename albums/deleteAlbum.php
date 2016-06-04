@@ -8,6 +8,12 @@
 include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/header.php';
+include '../config/token.php';
+
+$headers = getallheaders();
+$UID = get_UID($headers);
+$token = get_token($headers);
+check_token_past_due($token);
 
 $id = $_POST['id'];
 
