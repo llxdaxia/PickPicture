@@ -9,6 +9,9 @@
 /**
  * 检查参数是否为空
  */
+
+include './token.php';
+
 function check_empty()
 {
     $args = func_get_args();
@@ -34,7 +37,8 @@ function check_not_exist($pdo_connect, $table, $field, $field_value)
     }
 }
 
-function check_has_exist($pdo_connect, $table, $field, $field_value){
+function check_has_exist($pdo_connect, $table, $field, $field_value)
+{
     $check_sql = "SELECT * FROM $table WHERE $field = '$field_value' LIMIT 1";
     $check_result = $pdo_connect->query($check_sql);
     if ($check_result->rowCount() > 0) {
@@ -42,4 +46,18 @@ function check_has_exist($pdo_connect, $table, $field, $field_value){
         echo json_encode($result);
         exit();
     }
+}
+
+function check_token_past_due($token)
+{
+    $memcache = new Token();
+    $UID = $memcache->get_user_uid($token);
+    if (empty($UID)) {
+        $result['info'] = "token is past due,please restart login";
+        echo json_encode($result);
+        exit();
+    } else {
+        return;
+    }
+
 }

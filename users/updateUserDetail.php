@@ -21,6 +21,8 @@ $headers = getallheaders();
 $id = get_UID($headers);
 $token = get_token($headers);
 
+check_token_past_due($token);
+
 check_empty($avatar, $name, $gender, $background, $intro);
 
 $query_sql = "UPDATE user SET avatar = '$avatar',name = '$name',gender = $gender,background = '$background',intro = '$intro' WHERE id = $id";

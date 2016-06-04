@@ -1,34 +1,27 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: linlongxin
- * Date: 2016/5/31
- * Time: 16:58
- */
-class token
+class Token
 {
     private $mmc;
-    private $cache_time;   //有效时间
+    private $cache_time;
 
     function __construct()
     {
-//        $this->cache_time = 60 * 60 * 24;
-//
-//        //初始化memcache
-//
-//        if (defined('PICK_PICTURE')) {
-//            $this->mmc = memcache_init();
-//        } else {
-//            $this->mmc = new memcache;
-//            $this->mmc->connect("127.0.0.1", 11211);
-//        }
-//
-//        if ($this->mmc == false){
-//            echo "缓存初始化错误";
-//            die('Memcache Init Failed');
-//        }
+        $this->cache_time = 60 * 60 * 24;
 
+        //初始化memcache
+
+        if (defined('pick_picture')) {
+            $this->mmc = memcache_init();
+        } else {
+            $this->mmc = new memcache;
+            $this->mmc->connect("127.0.0.1", 11211);
+        }
+
+        if ($this->mmc == false) {
+            echo "memcache init failed";
+            die('Memcache Init Failed');
+        }
 
     }
 
@@ -100,5 +93,16 @@ class token
     public function get_token($string, $salt = '')
     {
         return substr(md5(md5($string) . 'key' . $salt), 0, 30);
+    }
+
+    public function check_token_past($token)
+    {
+        if ($this->get_user_uid($token) == "") {
+            $result['info'] = "token is past due,please restart login";
+            echo json_encode($result);
+            exit();
+        } else {
+            return;
+        }
     }
 }

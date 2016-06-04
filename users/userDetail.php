@@ -9,6 +9,12 @@
 include '../config/connect_pdo.php';
 include '../config/check.php';
 
+$headers = getallheaders();
+$uid = get_UID($headers);
+$token = get_token($headers);
+
+check_token_past_due($token);
+
 $id = $_POST['id'];
 
 check_empty($id);

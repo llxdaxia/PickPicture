@@ -21,6 +21,7 @@ $tag = $_POST['tag'];
 $headers = getallheaders();
 $UID = get_UID($headers);
 $token = get_token($headers);
+check_token_past_due($token);
 
 check_empty($src, $name, $intro, $height, $width, $album_id, $tag,$UID);
 

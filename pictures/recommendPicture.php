@@ -19,9 +19,6 @@ $end = $page * 20;
 $query_sql = "SELECT * FROM picture LIMIT $start,$end";
 $query_result = $pdo_connect->query($query_sql);
 
-//echo $pdo_connect_db->errorCode();
-//echo $pdo_connect_db->errorInfo();
-
 $result_rows = $query_result->fetchAll();
 
 $index = 0;

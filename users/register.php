@@ -7,7 +7,7 @@
  */
 
 include '../config/connect_pdo.php';
-include 'token.php';
+include '../config/token.php';
 include '../config/check.php';
 
 $name = $_REQUEST['name'];
@@ -17,25 +17,20 @@ $number = $_REQUEST['number'];
 $avatar = $_REQUEST['avatar'];
 
 check_empty($name, $password, $code, $number, $avatar);
+check_has_exist($pdo_connect, "user", "number", $number);
+check_has_exist($pdo_connect, "user", "name", $name);
 
-$query_sql = "SELECT * FROM user WHERE number='$number' OR name='$name'";
-$check_repeat = $pdo_connect->query($query_sql);    //返回影响的条目数
+$token = new Token();
+$real_token_str = $token->get_token($name, "pick_picture"); //生成token
 
-if ($check_repeat->rowCount() > 0) {
-    $result['info'] = "已注册";
+$insert_sql = "insert into user (name,password,number,avatar,token) 
+values('$name','$password','$number','$avatar','$real_token_str')";
+$insert_user = $pdo_connect->exec($insert_sql);
+
+if ($insert_user) {
+    $result['info'] = "success";
 } else {
-
-    $token = new token();
-    $token_str = $token->get_token($name, "go");
-
-    $insert_sql = "insert into user (name,password,number,avatar,token) values('$name','$password','$number','$avatar','$token_str')";
-    $insert_user = $pdo_connect->exec($insert_sql);
-
-    if ($insert_user) {
-        $result['info'] = "success";
-    } else {
-        $result['info'] = "failed";
-    }
+    $result['info'] = "failed";
 }
 
 echo json_encode($result);
