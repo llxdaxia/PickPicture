@@ -10,8 +10,6 @@
  * 检查参数是否为空
  */
 
-include './token.php';
-
 function check_empty()
 {
     $args = func_get_args();
