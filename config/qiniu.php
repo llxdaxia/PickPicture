@@ -2,11 +2,6 @@
 
 //同一目录下不需要导入文件
 
-$user = checkToken(0,$result);
-if ($user == -1) {
-    echo json_encode($result);
-    return;
-}
 $qiniu = new Qiniu();
 $result = array("token" => $qiniu->uploadToken());
 echo json_encode($result);

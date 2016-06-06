@@ -16,8 +16,8 @@ function check_empty()
 
     for ($i = 0; $i < count($args); $i++) {
         if ($args[$i] == "") {
-            header("http/1.1 400 Bad Request");
-            $result["error"] = "参数不能为空";
+            header("http/1.1 400 params error");
+            $result["error"] = "Parameters cannot be empty";
             echo json_encode($result);
             exit();
         }
@@ -29,9 +29,7 @@ function check_not_exist($pdo_connect, $table, $field, $field_value)
     $check_sql = "SELECT * FROM $table WHERE $field = '$field_value'";
     $check_result = $pdo_connect->query($check_sql);
     if ($check_result->rowCount() == 0) {
-        $result['info'] = "$field is not exist";
-        echo json_encode($result);
-        exit();
+        badParam();
     }
 }
 
@@ -51,9 +49,7 @@ function check_token_past_due($token)
     $memcache = new Token();
     $UID = $memcache->get_user_uid($token);
     if (empty($UID)) {
-        $result['info'] = "token is past due,please restart login";
-        echo json_encode($result);
-        exit();
+        tokenInvalid();
     } else {
         return;
     }

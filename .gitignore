@@ -28,5 +28,4 @@ out
 gen
 .gitignore
 .idea/workspace.xml
-config/connect_mysqli.php
 config/connect_pdo.php

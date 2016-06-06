@@ -9,6 +9,7 @@
 include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/token.php';
+include '../config/statusCode.php';
 
 $number = $_POST['number'];
 $password = $_POST['password'];
@@ -18,6 +19,9 @@ check_not_exist($pdo_connect, "user", "number", $number);
 
 $login_sql = "select * from user where number = $number and password = $password LIMIT 1";
 $query_result = $pdo_connect->query($login_sql);
+if (empty($query_result)) {
+    serverError();
+}
 
 if ($query_result->rowCount()) {
 
@@ -39,9 +43,8 @@ if ($query_result->rowCount()) {
         'token' => $token_str
     );
 } else {
-    $result = array(
-        'error' => "用户名或密码错误"
-    );
+    header("http/1.1 400 params error");
+    $result["error"] = "username or password error";
 }
 
 echo json_encode($result);

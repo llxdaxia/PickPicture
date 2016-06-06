@@ -4,6 +4,8 @@ include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/request.php';
 include '../config/config.php';
+include '../config/token.php';
+include '../config/statusCode.php';
 
 // 配置项
 
@@ -43,7 +45,7 @@ values('$name','$password','$number','$avatar','$real_token_str')";
     if ($insert_user) {
         $result['info'] = "success";
     } else {
-        $result['info'] = "failed";
+        serverError();
     }
 } else if ($response_json['status'] == 468) {
     header("http/1.1 400 Bad Request");

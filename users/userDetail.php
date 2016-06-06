@@ -10,6 +10,7 @@ include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/token.php';
 include '../config/header.php';
+include '../config/statusCode.php';
 
 $headers = getallheaders();
 $uid = get_UID($headers);
@@ -24,6 +25,9 @@ check_not_exist($pdo_connect, "user", "id", $id);
 
 $query_sql = "SELECT * FROM user WHERE id = $id LIMIT 1";
 $query_result = $pdo_connect->query($query_sql);
+if (empty($query_result)) {
+    serverError();
+}
 if ($query_result->rowCount() == 0) {
     $result['info'] = "id is not exist";
 } else {
@@ -47,10 +51,6 @@ if ($query_result->rowCount() == 0) {
         $album_array[$index] = $item['avatar'];
         $index++;
     }
-
-    //查询图片收藏
-//    $query_collection_picture = "SELECT avatar FROM picture WHERE user_id = $id";
-
 
     foreach ($query_result as $item) {
         $result['id'] = $item['id'];

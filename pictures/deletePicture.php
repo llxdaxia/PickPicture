@@ -10,6 +10,7 @@ include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/header.php';
 include '../config/token.php';
+include '../config/statusCode.php';
 
 $headers = getallheaders();
 $uid = get_UID($headers);
@@ -27,7 +28,7 @@ $query_result = $pdo_connect->exec($query_sql);
 if ($query_result) {
     $result['info'] = "success";
 } else {
-    $result['info'] = "delete failed";
+    serverError();
 }
 
 echo json_encode($result);

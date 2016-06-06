@@ -9,6 +9,7 @@ include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/header.php';
 include '../config/token.php';
+include '../config/statusCode.php';
 
 $headers = getallheaders();
 $UID = get_UID($headers);
@@ -31,7 +32,7 @@ if ($check_result->rowCount() == 0) {
     if ($query_result) {
         $result['info'] = "success";
     } else {
-        $result['info'] = "follow failed";
+        serverError();
     }
 } else {
     $result['info'] = "the user has been follow";

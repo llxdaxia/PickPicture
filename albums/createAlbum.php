@@ -10,6 +10,7 @@ include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/header.php';
 include '../config/token.php';
+include '../config/statusCode.php';
 
 $headers = getallheaders();
 $UID = get_UID($headers);
@@ -35,7 +36,7 @@ $query_result = $pdo_connect->exec($query_sql);
 if ($query_result) {
     $result['info'] = "success";
 } else {
-    $result['info'] = "failed";
+    serverError();
 }
 
 echo json_encode($result);

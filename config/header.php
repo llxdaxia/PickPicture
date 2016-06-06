@@ -13,6 +13,7 @@ function get_UID($headers)
     if ($headers['UID'] != "") {
         return $headers['UID'];
     } else {
+        header("http/1.1 400 UID is empty");
         $result['info'] = "UID is empty";
         echo json_encode($result);
         exit();
@@ -25,7 +26,8 @@ function get_token($headers)
     if ($headers['token'] != "") {
         return $headers['token'];
     } else {
-        $result['info'] = "token is empty";
+        header("http/1.1 400 token is empty");
+        $result['error'] = "token is empty";
         echo json_encode($result);
         exit();
     }

@@ -10,6 +10,7 @@ include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/header.php';
 include '../config/token.php';
+include '../config/statusCode.php';
 
 $src = $_POST['src'];
 $name = $_POST['name'];
@@ -31,12 +32,10 @@ VALUES ('$src','$name','$intro','$height','$width','$album_id','$tag','$UID')";
 
 $query_result = $pdo_connect->exec($query_sql);
 
-//echo json_encode($pdo_connect->errorInfo());
-
 if ($query_result) {
     $result['info'] = "success";
 } else {
-    $result['info'] = "insert failed";
+    serverError();
 }
 
 echo json_encode($result);
