@@ -11,6 +11,7 @@ include '../config/statusCode.php';
 $query_sql = "SELECT * FROM picture ORDER BY collection_count*5+watch_count ASC LIMIT 10";
 $query_result = $pdo_connect->query($query_sql);
 
+$result = array();
 if ($query_result->rowCount()) {
     $result_rows = $query_result->fetchAll();
 

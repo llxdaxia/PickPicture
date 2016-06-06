@@ -20,6 +20,7 @@ $end = $page * 20;
 $query_sql = "SELECT * FROM picture LIMIT $start,$end";
 $query_result = $pdo_connect->query($query_sql);
 
+$result = array();
 if ($query_result->rowCount()) {
     $result_rows = $query_result->fetchAll();
 
