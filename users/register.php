@@ -16,7 +16,7 @@ $number = $_REQUEST['number'];
 $avatar = $_REQUEST['avatar'];
 
 check_empty($name, $password, $code, $number);
-check_has_exist($pdo_connect, "user", "number", $number);
+check_has_exist($pdo_connect, "user", "number", $number,"电话号码已注册");
 
 if ($avatar == "") {
     $avatar = Config::$DEFAULT_AVATAR;
@@ -32,9 +32,7 @@ $response = postRequest(Config::$API_MOB_VERIFY_CODE, array(
 $response_json = json_decode($response, true);
 
 if ($response_json['status'] == 200) {
-
-    check_has_exist($pdo_connect, "user", "name", $name);
-
+    
     $token = new Token();
     $real_token_str = $token->get_token($name, "pick_picture"); //生成token
 

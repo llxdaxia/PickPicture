@@ -28,7 +28,7 @@ check_empty($name, $avatar, $intro);
 if ($id != "") {
     $query_sql = "UPDATE album SET name = '$name',avatar = '$avatar',author_id = '$UID',intro = '$intro'";
 } else {
-    check_has_exist($pdo_connect, "album", "name", $name);
+    check_has_exist($pdo_connect, "album", "name", $name,"专辑名已存在");
     $query_sql = "INSERT INTO album (name,avatar,author_id,intro) VALUES ('$name','$avatar','$UID','$intro')";
 }
 

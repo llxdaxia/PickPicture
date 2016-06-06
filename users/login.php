@@ -15,7 +15,6 @@ $number = $_POST['number'];
 $password = $_POST['password'];
 
 check_empty($number, $password);
-check_not_exist($pdo_connect, "user", "number", $number);
 
 $login_sql = "select * from user where number = '$number' and password = '$password' LIMIT 1";
 $query_result = $pdo_connect->query($login_sql);
@@ -34,8 +33,6 @@ if ($query_result->rowCount()) {
 
     $result = array(
         'id' => $id,
-        'number' => $result_row ['number'],
-        'password' => $result_row ['password'],
         'name' => $result_row ['name'],
         'avatar' => $result_row ['avatar'],
         'gender' => $result_row ['gender'],
@@ -44,7 +41,7 @@ if ($query_result->rowCount()) {
     );
 } else {
     header("http/1.1 400 params error");
-    $result["error"] = "username or password error";
+    $result["error"] = "手机号码或密码错误";
 }
 
 echo json_encode($result);

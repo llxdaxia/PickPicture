@@ -20,8 +20,7 @@ check_token_past_due($token);
 $star_id = $_POST['id'];   //被关注者id
 
 check_empty($UID, $star_id);
-check_not_exist($pdo_connect, "user", "id", $star_id);
-check_not_exist($pdo_connect, "user", "id", $UID);
+check_not_exist($pdo_connect, "user", "id", $star_id,"关注者不存在");
 
 $check_sql = "SELECT * FROM follow WHERE star = '$star_id' AND fans = '$UID'";
 $check_result = $pdo_connect->query($check_sql);

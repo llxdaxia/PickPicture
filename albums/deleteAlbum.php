@@ -19,7 +19,7 @@ check_token_past_due($token);
 $id = $_POST['id'];
 
 check_empty($id);
-check_not_exist($pdo_connect, "album", "id", $id);
+check_not_exist($pdo_connect, "album", "id", $id,"专辑不存在");
 
 $query_sql = "DELETE FROM album WHERE id = '$id'";
 $query_result = $pdo_connect->exec($query_sql);

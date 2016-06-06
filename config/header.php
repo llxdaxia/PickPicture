@@ -14,7 +14,7 @@ function get_UID($headers)
         return $headers['UID'];
     } else {
         header("http/1.1 400 UID is empty");
-        $result['info'] = "UID is empty";
+        $result['error'] = "UID为空，请先登录";
         echo json_encode($result);
         exit();
     }
@@ -27,7 +27,7 @@ function get_token($headers)
         return $headers['token'];
     } else {
         header("http/1.1 400 token is empty");
-        $result['error'] = "token is empty";
+        $result['error'] = "token为空，请先登录";
         echo json_encode($result);
         exit();
     }

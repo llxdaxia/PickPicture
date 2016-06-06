@@ -21,7 +21,7 @@ check_token_past_due($token);
 $id = $_POST['id'];
 
 check_empty($id);
-check_not_exist($pdo_connect, "user", "id", $id);
+check_not_exist($pdo_connect, "user", "id", $id,"用户不存在");
 
 $query_sql = "SELECT * FROM user WHERE id = $id LIMIT 1";
 $query_result = $pdo_connect->query($query_sql);

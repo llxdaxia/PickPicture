@@ -34,8 +34,6 @@ $response = postRequest(Config::$API_MOB_VERIFY_CODE, array(
 
 if ($response_json['status'] == 200) {
 
-    check_has_exist($pdo_connect, "user", "name", $name);
-
     $query_sql = "UPDATE user SET number = '$number',password = '$password' WHERE id = '$uid'";
     $query_result = $pdo_connect->query($query_sql);
 
