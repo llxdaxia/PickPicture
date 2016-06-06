@@ -17,7 +17,7 @@ $password = $_POST['password'];
 check_empty($number, $password);
 check_not_exist($pdo_connect, "user", "number", $number);
 
-$login_sql = "select * from user where number = $number and password = $password LIMIT 1";
+$login_sql = "select * from user where number = '$number' and password = '$password' LIMIT 1";
 $query_result = $pdo_connect->query($login_sql);
 if (empty($query_result)) {
     serverError();

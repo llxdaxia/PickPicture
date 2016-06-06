@@ -33,7 +33,7 @@ if ($query_result->rowCount() == 0) {
 } else {
 
     //查询图片集
-    $query_picture = "SELECT src FROM picture WHERE author_id = $id";
+    $query_picture = "SELECT src FROM picture WHERE author_id = '$id'";
     $picture_result = $pdo_connect->query($query_picture);
 
     $index = 0;
@@ -43,7 +43,7 @@ if ($query_result->rowCount() == 0) {
     }
 
     //查询相册
-    $query_album = "SELECT avatar FROM album WHERE author_id = $id";
+    $query_album = "SELECT avatar FROM album WHERE author_id = '$id'";
     $album_result = $pdo_connect->query($query_album);
 
     $index = 0;

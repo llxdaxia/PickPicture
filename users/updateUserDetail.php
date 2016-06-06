@@ -25,7 +25,7 @@ check_token_past_due($token);
 
 check_empty($avatar, $name, $gender, $background, $intro);
 
-$query_sql = "UPDATE user SET avatar = '$avatar',name = '$name',gender = $gender,background = '$background',intro = '$intro' WHERE id = $id";
+$query_sql = "UPDATE user SET avatar = '$avatar',name = '$name',gender = $gender,background = '$background',intro = '$intro' WHERE id = '$id'";
 $query_result = $pdo_connect->exec($query_sql);
 
 if ($query_result) {

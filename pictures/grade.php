@@ -37,7 +37,7 @@ if ($rows_length == 0) {
         }
     }
 
-    $query_sql = "UPDATE picture SET score = $score WHERE id = $id";
+    $query_sql = "UPDATE picture SET score = '$score' WHERE id = '$id'";
     $query_result = $pdo_connect->exec($query_sql);
 
     if ($query_result) {

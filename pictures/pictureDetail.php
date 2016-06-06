@@ -14,7 +14,7 @@ $id = $_REQUEST['id'];
 check_empty($id);
 check_not_exist($pdo_connect, "picture", "id", $id);
 
-$query_tag = "SELECT tag FROM picture WHERE id = $id";
+$query_tag = "SELECT tag FROM picture WHERE id = '$id'";
 $result_tag = $pdo_connect->query($query_tag);
 $tag_array = $result_tag->fetch();
 $tag = $tag_array['tag'];
