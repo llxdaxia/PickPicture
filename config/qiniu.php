@@ -8,13 +8,11 @@ echo json_encode($result);
 
 class Qiniu
 {
-    private $accessKey='7dh0-GZEY8xx5dpRMQBl19PGvE7zUixpJxUFhvVc';
-    private $secretKey='wzzcLKJMpgPa_UpQU4WCfW_wtti-58XSRxfaPtmv';
 
     public function sign($data)
     {
-        $hmac = hash_hmac('sha1', $data, $this->secretKey, true);
-        return $this->accessKey . ':' . $this->base64_urlSafeEncode($hmac);
+        $hmac = hash_hmac('sha1', $data, Config::$QINIU_SECRET_KEY, true);
+        return Config::$QINIU_ACCESS_KEY . ':' . $this->base64_urlSafeEncode($hmac);
     }
 
     public function signWithData($data)
@@ -50,7 +48,7 @@ class Qiniu
 
     public function uploadToken($key = null,$expires = 600,$policy = null,$strictPolicy = true) {
         $deadline = time() + $expires;
-        $scope = 'pjtp';
+        $scope = 'shadow';
         if ($key != null) {
             $scope .= ':' . $key;
         }
@@ -118,4 +116,3 @@ class Qiniu
         return str_replace($find, $replace, base64_encode($data));
     }
 }
-?>

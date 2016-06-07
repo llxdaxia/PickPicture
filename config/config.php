@@ -15,5 +15,8 @@ class Config{
     public static $MOB_APP_KEY = "138d55e115e47";
     public static $MOB_APP_SECRET = "6b4f19b7294db77ca853d9bfbc181f96";
     public static $API_MOB_VERIFY_CODE = "https://webapi.sms.mob.com/sms/verify";
-    
+
+    //七牛
+    public static $QINIU_ACCESS_KEY = "UOUxbo4brbNKkEEkTEZbnkPXrKaq_KoqCxhlo2oe";
+    public static $QINIU_SECRET_KEY = "55JlULJtMpRpt-LJuid3gK_7I9CJOVDyhT_-k6sO";
 }

@@ -7,7 +7,7 @@ class Token
 
     function __construct()
     {
-        $this->cache_time = 60 * 60 * 24;
+        $this->cache_time = 60 * 60 * 24 * 7;
 
         //初始化memcache
 
