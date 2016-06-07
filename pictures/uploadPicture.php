@@ -24,7 +24,7 @@ $UID = get_UID($headers);
 $token = get_token($headers);
 check_token_past_due($token);
 
-check_empty($src, $name, $intro, $height, $width, $tag,$UID);
+check_empty($src, $name, $height, $width);
 
 $query_sql = "INSERT INTO picture (src,name,intro,height,width,tag,author_id) 
 VALUES ('$src','$name','$intro','$height','$width','$tag','$UID')";

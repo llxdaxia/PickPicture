@@ -1,6 +1,7 @@
 <?php
 
 //同一目录下不需要导入文件
+include '../config/config.php';
 
 $qiniu = new Qiniu();
 $result = array("token" => $qiniu->uploadToken());
