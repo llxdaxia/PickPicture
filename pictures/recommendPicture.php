@@ -27,21 +27,39 @@ if ($query_result->rowCount()) {
     $index = 0;
     foreach ($result_rows as $row) {
 
-        $temp['id'] = $row['id'];
-        $temp['name'] = $row['name'];
-        $temp['intro'] = $row['intro'];
-        $temp['width'] = $row['width'];
-        $temp['height'] = $row['height'];
-        $temp['src'] = $row['src'];
-        $temp['author_id'] = $row['author_id'];
-        $temp['tag'] = $row['tag'];
-        $temp['score'] = $row['score'];
-        $temp['watch_count'] = $row['watch_count'];
-        $temp['collection_count'] = $row['collection_count'];
-        $temp['album_id'] = $row['album_id'];
-        $temp['create_time'] = strtotime($row['create_time']);
+        $author_id = $row['author_id'];
+        
+        $picture['id'] = $row['id'];
+        $picture['name'] = $row['name'];
+        $picture['intro'] = $row['intro'];
+        $picture['width'] = $row['width'];
+        $picture['height'] = $row['height'];
+        $picture['src'] = $row['src'];
+        $picture['author_id'] = $row['author_id'];
+        $picture['tag'] = $row['tag'];
+        $picture['score'] = $row['score'];
+        $picture['watch_count'] = $row['watch_count'];
+        $picture['collection_count'] = $row['collection_count'];
+        $picture['album_id'] = $row['album_id'];
+        $picture['create_time'] = strtotime($row['create_time']);
+        
+        //获取作者的头像和昵称
+        $avatar_sql = "SELECT * FROM user WHERE id = '$author_id' LIMIT 1";
+        $result_avatar = $pdo_connect->query($avatar_sql);
+        $author = $result_avatar->fetch();
+        $author_avatar = $author['avatar'];
+        $author_name = $author['name'];
+        
+        $picture['author_avatar'] = $author_avatar;
+        $picture['author_name'] = $author_name;
+        
+        //获取作者发布的图片数量
+        $picture_count_sql = "SELECT * FROM picture WHERE author_id = '$author_id'";
+        $result_count = $pdo_connect->query($picture_count_sql);
+        $result_count->fetchAll();
+        $picture['author_picture_count'] = $result_count->rowCount();;
 
-        $result[$index] = $temp;
+        $result[$index] = $picture;
         $index++;
     }
 } else {

@@ -37,7 +37,7 @@ foreach ($rows as $item) {
     $picture['watch_count'] = $item['watch_count'];
     $picture['collection_count'] = $item['collection_count'];
     $picture['album_id'] = $item['album_id'];
-    $picture['create_time'] = $item['create_time'];
+    $picture['create_time'] = strtotime($item['create_time']);
     $picture['author_avatar'] = $author_avatar;
     $picture['author_name'] = $author_name;
     $picture['author_picture_count'] = $result_query->rowCount();
