@@ -43,7 +43,7 @@ $result['score'] = $tag_row['score'];
 $result['watch_count'] = $tag_row['watch_count'];
 $result['collection_count'] = $tag_row['collection_count'];
 $result['album_id'] = $tag_row['album_id'];
-$result['create_time'] = $tag_row['create_time'];
+$result['create_time'] = strtotime($tag_row['create_time']);
 
 //用户未登录，直接返回
 if ($uid == "") {
@@ -77,12 +77,6 @@ foreach ($split_array as $tag_name) {
         }
     }
 }
-
-//if ($isSuccess) {
-//    $result['info'] = "success";
-//} else {
-//    $result['info'] = "更新或插入数据库失败";
-//}
 
 echo json_encode($result);
 
