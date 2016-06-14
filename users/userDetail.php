@@ -9,17 +9,15 @@
 include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/statusCode.php';
+include '../config/header.php';
+
+$headers = getallheaders();
+$UID = get_UID($headers);
 
 $id = $_POST['id'];
 
 check_empty($id);
 check_not_exist($pdo_connect, "user", "id", $id, "用户不存在");
-
-$query_sql = "SELECT * FROM user WHERE id = $id LIMIT 1";
-$query_result = $pdo_connect->query($query_sql);
-if (empty($query_result)) {
-    serverError();
-}
 
 //查询图片集，获取用户所有图片
 $query_picture = "SELECT * FROM picture WHERE author_id = '$id' ORDER BY create_time DESC";
@@ -33,6 +31,7 @@ $author_avatar = $author['avatar'];
 $author_name = $author['name'];
 
 $result = array();
+$picture_array = array();
 $index = 0;
 foreach ($rows as $item) {
 
@@ -75,16 +74,30 @@ foreach ($album_result as $item) {
     $index++;
 }
 
+
+//整合结果
+$query_sql = "SELECT * FROM user WHERE id = $id LIMIT 1";
+$query_result = $pdo_connect->query($query_sql);
+$item = $query_result->fetch();
+
 $result = array();
-foreach ($query_result as $item) {
-    $result['id'] = $item['id'];
-    $result['number'] = $item['number'];
-    $result['name'] = $item['name'];
-    $result['avatar'] = $item['avatar'];
-    $result['gender'] = $item['gender'];
-    $result['intro'] = $item['intro'];
-    $result['pictures'] = $picture_array;
-    $result['albums'] = $album_array;
-}
+
+//echo $id . "\n";
+//echo $UID . "\n";
+
+//是否被关注
+$is_star_sql = "SELECT * FROM follow WHERE star = '$id' AND fans = '$UID'";
+$result_is_star = $pdo_connect->query($is_star_sql);
+
+$result['id'] = $item['id'];
+$result['number'] = $item['number'];
+$result['name'] = $item['name'];
+$result['avatar'] = $item['avatar'];
+$result['gender'] = $item['gender'];
+$result['intro'] = $item['intro'];
+$result['pictures'] = $picture_array;
+$result['albums'] = $album_array;
+$result['is_followed'] = $result_is_star->rowCount() > 0;
+
 
 echo json_encode($result);

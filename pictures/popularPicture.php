@@ -23,17 +23,19 @@ if ($query_result->rowCount()) {
     foreach ($result_rows as $row) {
 
         $photo_id = $row['id'];
+        $author_id = $row['author_id'];
 
         $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$id' AND photo_id = '$photo_id' LIMIT 1";
         $result_is_collection = $pdo_connect->query($collection_sql);
 
         $temp['id'] = $row['id'];
         $temp['name'] = $row['name'];
+        $picture['gender'] = $row['gender'];
         $temp['intro'] = $row['intro'];
         $temp['width'] = $row['width'];
         $temp['height'] = $row['height'];
         $temp['src'] = $row['src'];
-        $temp['author_id'] = $row['author_id'];
+        $temp['author_id'] = $author_id;
         $temp['tag'] = $row['tag'];
         $temp['score'] = $row['score'];
         $temp['watch_count'] = $row['watch_count'];
@@ -44,6 +46,19 @@ if ($query_result->rowCount()) {
             $temp['is_collection'] = $result_is_collection->rowCount() > 0;
         }
 
+        //获取作者的头像和昵称
+        $avatar_sql = "SELECT * FROM user WHERE id = '$author_id' LIMIT 1";
+        $result_avatar = $pdo_connect->query($avatar_sql);
+        $author = $result_avatar->fetch();
+
+        $temp['author_avatar'] = $author['avatar'];
+        $temp['author_name'] = $author['name'];
+
+        //获取作者发布的图片数量
+        $picture_count_sql = "SELECT * FROM picture WHERE author_id = '$author_id'";
+        $result_count = $pdo_connect->query($picture_count_sql);
+        $result_count->fetchAll();
+        $temp['author_picture_count'] = $result_count->rowCount();;
 
         $result[$index] = $temp;
         $index++;

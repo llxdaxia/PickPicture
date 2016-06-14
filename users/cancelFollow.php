@@ -22,12 +22,11 @@ $star_id = $_POST['id'];   //被关注者id
 
 check_empty($star_id);
 
-$query_sql = "DELETE FROM follow WHERE start = '$star_id' AND fans = '$UID'";
-
+$query_sql = "DELETE FROM follow WHERE star = '$star_id' AND fans = '$UID'";
 $result_query = $pdo_connect->exec($query_sql);
 
 if ($result_query) {
-    $result['info'] = success;
+    $result['info'] = "success";
 } else {
     serverError();
 }

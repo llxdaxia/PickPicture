@@ -33,6 +33,7 @@ foreach ($rows as $item) {
 
     $picture['id'] = $photo_id;
     $picture['name'] = $item['name'];
+    $picture['gender'] = $item['gender'];
     $picture['intro'] = $item['intro'];
     $picture['width'] = $item['width'];
     $picture['height'] = $item['height'];
