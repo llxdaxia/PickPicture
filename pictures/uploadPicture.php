@@ -26,8 +26,10 @@ check_token_past_due($token);
 
 check_empty($src, $name, $height, $width);
 
-$query_sql = "INSERT INTO picture (src,name,intro,height,width,tag,author_id) 
-VALUES ('$src','$name','$intro','$height','$width','$tag','$UID')";
+$current_time = date("Y-m-d h:i:s");
+
+$query_sql = "INSERT INTO picture (src,name,intro,height,width,tag,author_id,create_time) 
+VALUES ('$src','$name','$intro','$height','$width','$tag','$UID','$current_time')";
 
 $query_result = $pdo_connect->exec($query_sql);
 

@@ -11,7 +11,7 @@ include '../config/check.php';
 
 $id = $_POST['id'];
 
-$query_sql = "SELECT * FROM picture WHERE author_id = '$id'";
+$query_sql = "SELECT * FROM picture WHERE author_id = '$id' ORDER BY create_time DESC";
 
 $result_query = $pdo_connect->query($query_sql);
 $rows = $result_query->fetchAll();
@@ -25,7 +25,13 @@ $author_name = $author['name'];
 $result = array();
 $index = 0;
 foreach ($rows as $item) {
-    $picture['id'] = $item['id'];
+
+    $photo_id = $item['id'];
+
+    $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$id' AND photo_id = '$photo_id' LIMIT 1";
+    $result_is_collection = $pdo_connect->query($collection_sql);
+
+    $picture['id'] = $photo_id;
     $picture['name'] = $item['name'];
     $picture['intro'] = $item['intro'];
     $picture['width'] = $item['width'];
@@ -41,6 +47,7 @@ foreach ($rows as $item) {
     $picture['author_avatar'] = $author_avatar;
     $picture['author_name'] = $author_name;
     $picture['author_picture_count'] = $result_query->rowCount();
+    $picture['is_collection'] = $result_is_collection->rowCount() > 0;
 
     $result[$index] = $picture;
     $index++;

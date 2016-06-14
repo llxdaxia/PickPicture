@@ -10,6 +10,9 @@ include '../config/connect_pdo.php';
 include '../config/check.php';
 include '../config/statusCode.php';
 
+$headers = getallheaders();
+$UID = $UID = $headers['UID'];;
+
 $page = $_REQUEST['page'];
 
 check_empty($page);
@@ -27,9 +30,15 @@ if ($query_result->rowCount()) {
     $index = 0;
     foreach ($result_rows as $row) {
 
+        $photo_id = $row['id'];
+
+        $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$id' AND photo_id = '$photo_id' LIMIT 1";
+        $result_is_collection = $pdo_connect->query($collection_sql);
+
+
         $author_id = $row['author_id'];
-        
-        $picture['id'] = $row['id'];
+
+        $picture['id'] = $photo_id;
         $picture['name'] = $row['name'];
         $picture['intro'] = $row['intro'];
         $picture['width'] = $row['width'];
@@ -42,17 +51,20 @@ if ($query_result->rowCount()) {
         $picture['collection_count'] = $row['collection_count'];
         $picture['album_id'] = $row['album_id'];
         $picture['create_time'] = strtotime($row['create_time']);
-        
+        if (!empty($UID)) {
+            $picture['is_collection'] = $result_is_collection->rowCount() > 0;
+        }
+
         //获取作者的头像和昵称
         $avatar_sql = "SELECT * FROM user WHERE id = '$author_id' LIMIT 1";
         $result_avatar = $pdo_connect->query($avatar_sql);
         $author = $result_avatar->fetch();
         $author_avatar = $author['avatar'];
         $author_name = $author['name'];
-        
+
         $picture['author_avatar'] = $author_avatar;
         $picture['author_name'] = $author_name;
-        
+
         //获取作者发布的图片数量
         $picture_count_sql = "SELECT * FROM picture WHERE author_id = '$author_id'";
         $result_count = $pdo_connect->query($picture_count_sql);
