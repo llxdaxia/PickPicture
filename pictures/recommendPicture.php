@@ -41,7 +41,6 @@ if ($query_result->rowCount()) {
 
         $picture['id'] = $photo_id;
         $picture['name'] = $row['name'];
-        $picture['gender'] = $row['gender'];
         $picture['intro'] = $row['intro'];
         $picture['width'] = $row['width'];
         $picture['height'] = $row['height'];
@@ -62,6 +61,7 @@ if ($query_result->rowCount()) {
         $result_avatar = $pdo_connect->query($avatar_sql);
         $author = $result_avatar->fetch();
 
+        $picture['gender'] = $author['gender'];
         $picture['author_avatar'] = $author['avatar'];
         $picture['author_name'] = $author['name'];
 

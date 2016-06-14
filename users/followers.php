@@ -12,7 +12,7 @@ include '../config/statusCode.php';
 
 $id = $_POST['id'];
 
-$query_sql = "SELECT * FROM follow WHERE fans = '$id'";
+$query_sql = "SELECT * FROM follow WHERE star = '$id'";
 $result_sql = $pdo_connect->query($query_sql);
 $rows = $result_sql->fetchAll();
 
