@@ -8,8 +8,10 @@
 
 include "../config/connect_pdo.php";
 include '../config/check.php';
-include '../config/header.php';
 include '../config/token.php';
+
+$headers = getallheaders();
+$UID = $headers['UID'];  //可能登陆，也可以能没有登陆
 
 $user_id = $_POST['id'];
 
@@ -18,6 +20,7 @@ $query_sql = "SELECT photo_id FROM picture_collection WHERE user_id = '$user_id'
 $result_query = $pdo_connect->query($query_sql);
 $pictures = $result_query->fetchAll();
 
+//获取作者信息
 $avatar_sql = "SELECT * FROM user WHERE id = '$user_id' LIMIT 1";
 $result_avatar = $pdo_connect->query($avatar_sql);
 $author = $result_avatar->fetch();
@@ -33,13 +36,17 @@ $index = 0;
 foreach ($pictures as $row) {
     $photo_id = $row['photo_id'];
 
+    //获取图片信息
     $picture_sql = "SELECT * FROM picture WHERE id = '$photo_id' LIMIT 1";
-
     $result_picture = $pdo_connect->query($picture_sql);
     $picture = $result_picture->fetch();
 
-    $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$user_id' AND photo_id = '$photo_id' LIMIT 1";
-    $result_collection = $pdo_connect->query($collection_sql);
+    //是否被收藏
+    if (!empty($UID)) {
+        $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$UID' AND photo_id = '$photo_id' LIMIT 1";
+        $result_is_collection = $pdo_connect->query($collection_sql);
+        $item['is_collection'] = $result_is_collection->rowCount() > 0;
+    }
 
     $item['id'] = $picture['id'];
     $item['name'] = $picture['name'];
@@ -57,7 +64,6 @@ foreach ($pictures as $row) {
     $item['author_avatar'] = $author_avatar;
     $item['author_name'] = $author_name;
     $item['author_picture_count'] = $picture_count->rowCount();
-    $item['is_collection'] = $result_collection->rowCount() > 0;
 
     $result[$index] = $item;
     $index++;

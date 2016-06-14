@@ -2,66 +2,61 @@
 /**
  * Created by PhpStorm.
  * User: linlongxin
- * Date: 2016/6/3
- * Time: 10:16
+ * Date: 2016/6/14
+ * Time: 12:25
  */
-include './v1/config/connect_pdo.php';
-include './v1/config/statusCode.php';
 
-$headers = getallheaders();
-$UID = $headers['UID'];  //可能登陆，也可以能没有登陆
+include "./v1/config/connect_pdo.php";
+include './v1/config/check.php';
+include './v1/config/header.php';
+include './v1/config/token.php';
 
-$query_sql = "SELECT * FROM picture INNER JOIN user ON picture.author_id = user.id ORDER BY collection_count*5+watch_count DESC LIMIT 10";
-$query_result = $pdo_connect->query($query_sql);
+$user_id = $_POST['id'];
+
+//获取作者信息
+$query_sql = "SELECT * FROM  user WHERE id = '$user_id'";
+
+$result_query = $pdo_connect->query($query_sql);
+$pictures = $result_query->fetchAll();
+
+//获取作者发布的图片数量
+$picture_count_sql = "SELECT * FROM picture WHERE author_id = '$user_id'";
+$picture_count = $pdo_connect->query($picture_count_sql);
 
 $result = array();
-if ($query_result->rowCount()) {
-    $result_rows = $query_result->fetchAll();
+$index = 0;
+foreach ($pictures as $row) {
+    $photo_id = $row['photo_id'];
 
-    $index = 0;
+    $picture_sql = "SELECT * FROM picture WHERE id = '$photo_id' LIMIT 1";
 
-    foreach ($result_rows as $row) {
+    $result_picture = $pdo_connect->query($picture_sql);
+    $picture = $result_picture->fetch();
 
-        $photo_id = $row['id'];   //图片id
-        $author_id = $row['author_id'];   //作者id
+    $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$user_id' AND photo_id = '$photo_id' LIMIT 1";
+    $result_collection = $pdo_connect->query($collection_sql);
 
-        //是否被收藏
-        $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$id' AND photo_id = '$photo_id' LIMIT 1";
-        $result_is_collection = $pdo_connect->query($collection_sql);
+    $item['id'] = $picture['0'];
+    $item['name'] = $picture['1'];
+    $item['intro'] = $picture['intro'];
+    $item['width'] = $picture['width'];
+    $item['height'] = $picture['height'];
+    $item['src'] = $picture['src'];
+    $item['author_id'] = $picture['author_id'];
+    $item['tag'] = $picture['tag'];
+    $item['score'] = $picture['score'];
+    $item['watch_count'] = $picture['watch_count'];
+    $item['collection_count'] = $picture['collection_count'];
+    $item['album_id'] = $picture['album_id'];
+    $item['create_time'] = strtotime($picture['create_time']);
+    $item['author_avatar'] = $row['avatar'];
+    $item['author_name'] = $row['name'];
+    $item['author_picture_count'] = $picture_count->rowCount();
+    $item['is_collection'] = $result_collection->rowCount() > 0;
 
-        $temp['id'] = $row['id'];
-        $temp['name'] = $row['name'];
-        $temp['gender'] = $row['gender'];
-        $temp['intro'] = $row['intro'];
-        $temp['width'] = $row['width'];
-        $temp['height'] = $row['height'];
-        $temp['src'] = $row['src'];
-        $temp['author_id'] = $author_id;
-        $temp['tag'] = $row['tag'];
-        $temp['score'] = $row['score'];
-        $temp['watch_count'] = $row['watch_count'];
-        $temp['collection_count'] = $row['collection_count'];
-        $temp['album_id'] = $row['album_id'];
-        $temp['create_time'] = strtotime($row['create_time']);
-        if (!empty($UID)) {
-            $temp['is_collection'] = $result_is_collection->rowCount() > 0;
-        }
-
-        $temp['author_name'] = $row['16'];
-        $temp['author_avatar'] = $row['17'];
-
-        //获取作者发布的图片数量
-        $picture_count_sql = "SELECT * FROM picture WHERE author_id = '$author_id'";
-        $result_count = $pdo_connect->query($picture_count_sql);
-        $result_count->fetchAll();
-        $temp['author_picture_count'] = $result_count->rowCount();;
-
-        $result[$index] = $temp;
-        $index++;
-    }
-} else {
-    serverError();
+    $result[$index] = $item;
+    $index++;
 }
 
-
 echo json_encode($result);
+

@@ -26,8 +26,11 @@ if ($query_result->rowCount()) {
         $author_id = $row['author_id'];   //作者id
 
         //是否被收藏
-        $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$author_id' AND photo_id = '$photo_id' LIMIT 1";
-        $result_is_collection = $pdo_connect->query($collection_sql);
+        if (!empty($UID)) {
+            $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$UID' AND photo_id = '$photo_id' LIMIT 1";
+            $result_is_collection = $pdo_connect->query($collection_sql);
+            $temp['is_collection'] = $result_is_collection->rowCount() > 0;
+        }
 
         $temp['id'] = $photo_id;
         $temp['name'] = $row['1'];
@@ -43,18 +46,15 @@ if ($query_result->rowCount()) {
         $temp['collection_count'] = $row['collection_count'];
         $temp['album_id'] = $row['album_id'];
         $temp['create_time'] = strtotime($row['create_time']);
-        if (!empty($UID)) {
-            $temp['is_collection'] = $result_is_collection->rowCount() > 0;
-        }
 
         $temp['author_name'] = $row['16'];
         $temp['author_avatar'] = $row['17'];
 
         //获取作者发布的图片数量
-        $picture_count_sql = "SELECT * FROM picture WHERE author_id = '$author_id'";
+        $picture_count_sql = "SELECT COUNT(*) AS num FROM picture WHERE author_id = '$author_id'";
         $result_count = $pdo_connect->query($picture_count_sql);
-        $result_count->fetchAll();
-        $temp['author_picture_count'] = $result_count->rowCount();;
+        $row = $result_count->fetch();
+        $temp['author_picture_count'] = $row['num'];
 
         $result[$index] = $temp;
         $index++;
