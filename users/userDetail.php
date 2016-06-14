@@ -8,15 +8,7 @@
 
 include '../config/connect_pdo.php';
 include '../config/check.php';
-include '../config/token.php';
-include '../config/header.php';
 include '../config/statusCode.php';
-
-$headers = getallheaders();
-$uid = get_UID($headers);
-$token = get_token($headers);
-
-check_token_past_due($token);
 
 $id = $_POST['id'];
 
@@ -28,18 +20,51 @@ $query_result = $pdo_connect->query($query_sql);
 if (empty($query_result)) {
     serverError();
 }
-//查询图片集
-$query_picture = "SELECT src FROM picture WHERE author_id = '$id'";
-$picture_result = $pdo_connect->query($query_picture);
 
-$picture_array = array();
+//查询图片集，获取用户所有图片
+$query_picture = "SELECT * FROM picture WHERE author_id = '$id' ORDER BY create_time DESC";
+$result_query = $pdo_connect->query($query_picture);
+$rows = $result_query->fetchAll();
+
+$avatar_sql = "SELECT * FROM user WHERE id = '$id' LIMIT 1";
+$result_avatar = $pdo_connect->query($avatar_sql);
+$author = $result_avatar->fetch();
+$author_avatar = $author['avatar'];
+$author_name = $author['name'];
+
+$result = array();
 $index = 0;
-foreach ($picture_result as $item) {
-    $picture_array[$index] = $item['src'];
+foreach ($rows as $item) {
+
+    $photo_id = $item['id'];
+
+    $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$id' AND photo_id = '$photo_id' LIMIT 1";
+    $result_is_collection = $pdo_connect->query($collection_sql);
+
+    $picture['id'] = $photo_id;
+    $picture['name'] = $item['name'];
+    $picture['intro'] = $item['intro'];
+    $picture['width'] = $item['width'];
+    $picture['height'] = $item['height'];
+    $picture['src'] = $item['src'];
+    $picture['author_id'] = $item['author_id'];
+    $picture['tag'] = $item['tag'];
+    $picture['score'] = $item['score'];
+    $picture['watch_count'] = $item['watch_count'];
+    $picture['collection_count'] = $item['collection_count'];
+    $picture['album_id'] = $item['album_id'];
+    $picture['create_time'] = strtotime($item['create_time']);
+    $picture['author_avatar'] = $author_avatar;
+    $picture['author_name'] = $author_name;
+    $picture['author_picture_count'] = $result_query->rowCount();
+    $picture['is_collection'] = $result_is_collection->rowCount() > 0;
+
+    $picture_array[$index] = $picture;
     $index++;
 }
 
-//查询相册
+
+//查询专辑
 $query_album = "SELECT avatar FROM album WHERE author_id = '$id'";
 $album_result = $pdo_connect->query($query_album);
 

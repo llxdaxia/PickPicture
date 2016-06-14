@@ -30,7 +30,7 @@ $response_json = json_decode($response, true);
 
 if ($response_json['status'] == 200) {
 
-    $query_sql = "UPDATE user SET number = '$number',password = '$password' WHERE id = '$uid'";
+    $query_sql = "UPDATE user SET number = '$number',password = '$password' WHERE id = '$UID'";
     $query_result = $pdo_connect->query($query_sql);
 
     if (empty($query_result)) {

@@ -13,7 +13,7 @@ function get_UID($headers)
     if ($headers['UID'] != "") {
         return $headers['UID'];
     } else {
-        header("http/1.1 400 UID is empty");
+        header("http/1.1 401 UID is empty");
         $result['error'] = "UID为空，请先登录";
         echo json_encode($result);
         exit();

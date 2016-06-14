@@ -15,6 +15,7 @@ $UID = $UID = $headers['UID'];;
 
 $page = $_REQUEST['page'];
 
+$page++;
 check_empty($page);
 
 $start = ($page - 1) * 20;
@@ -32,7 +33,7 @@ if ($query_result->rowCount()) {
 
         $photo_id = $row['id'];
 
-        $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$id' AND photo_id = '$photo_id' LIMIT 1";
+        $collection_sql = "SELECT * FROM picture_collection WHERE user_id = '$UID' AND photo_id = '$photo_id' LIMIT 1";
         $result_is_collection = $pdo_connect->query($collection_sql);
 
 
@@ -74,8 +75,6 @@ if ($query_result->rowCount()) {
         $result[$index] = $picture;
         $index++;
     }
-} else {
-    serverError();
 }
 
 echo json_encode($result);
