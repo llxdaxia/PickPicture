@@ -35,7 +35,7 @@ if ($query_result->rowCount()) {
         $temp['id'] = $photo_id;
         $temp['name'] = $row['1'];
         $temp['gender'] = $row['gender'];
-        $temp['intro'] = $row['intro'];
+        $temp['intro'] = $row['2'];
         $temp['width'] = $row['width'];
         $temp['height'] = $row['height'];
         $temp['src'] = $row['src'];

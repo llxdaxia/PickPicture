@@ -21,7 +21,8 @@ check_empty($page);
 $start = ($page - 1) * 20;
 $end = $page * 20;
 
-$query_sql = "SELECT * FROM picture INNER JOIN user ON picture.author_id = user.id ORDER BY create_time DESC LIMIT $start,$end";
+//获取20张最新发布图片
+$query_sql = "SELECT DISTINCT * FROM picture INNER JOIN user ON picture.author_id = user.id ORDER BY create_time DESC LIMIT $start,$end";
 $query_result = $pdo_connect->query($query_sql);
 
 $result = array();
@@ -44,7 +45,7 @@ if ($query_result->rowCount()) {
 
         $picture['id'] = $photo_id;
         $picture['name'] = $row['1'];
-        $picture['intro'] = $row['intro'];
+        $picture['intro'] = $row['2'];
         $picture['width'] = $row['width'];
         $picture['height'] = $row['height'];
         $picture['src'] = $row['src'];
