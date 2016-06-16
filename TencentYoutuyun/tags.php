@@ -14,6 +14,9 @@ $userid = '973829691';
 
 Conf::setAppInfo($appid, $secretId, $secretKey, $userid, conf::API_YOUTU_END_POINT);
 
+$url = $_POST['src'];
+$local_file = $_FILES['file'];
+
 //
 //// 人脸检测 调用列子
 //$uploadRet = YouTu::detectface('http://img04.sogoucdn.com/app/a/100520024/0e4b0e698f91576283de9e63dd868744', 1);
@@ -23,9 +26,6 @@ Conf::setAppInfo($appid, $secretId, $secretKey, $userid, conf::API_YOUTU_END_POI
 //// 人脸定位 调用demo
 //$uploadRet = YouTu::faceshape('a.jpg', 1);
 //var_dump($uploadRet);
-
-$image_path = '';
-$url = 'http://img04.sogoucdn.com/app/a/100520024/0e4b0e698f91576283de9e63dd868744';
 
 //YouTu::imagetag($image_path);
 $result = YouTu::imagetagurl($url);

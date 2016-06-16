@@ -6,16 +6,13 @@
  * Time: 20:31
  */
 
-const AUTH_URL_FORMAT_ERROR = -1;
-const AUTH_SECRET_ID_KEY_ERROR = -2;
+namespace TencentYoutuyun;
 
-$expired = time() + 60 * 60 * 24 * 7; //过期时间
-$userid = '973829691';
+$expired = time() + 2592000;
 
-$appid = '1007268';
 $secretId = 'AKIDol3hHtHrhSZuDCFSCEr0DQCBoyBDlOEf';
 $secretKey = '55jtu8MH5BNHl9gPgDQLTc9NPRpmaiJ1';
-
+$appid = '1007268';
 if (empty($secretId) || empty($secretKey)) {
     return -2;
 }
@@ -27,4 +24,5 @@ $bin = hash_hmac("SHA1", $plainText, $secretKey, true);
 $bin = $bin . $plainText;
 $sign = base64_encode($bin);
 
-echo $sign;
+$result['token'] = $sign;
+echo json_encode($result);

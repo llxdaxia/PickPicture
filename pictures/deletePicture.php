@@ -17,10 +17,10 @@ $uid = get_UID($headers);
 $token = get_token($headers);
 check_token_past_due($token);
 
-$id = $_POST['id'];
+$id = $_POST['id']; //图片id
 
 check_empty($id);
-check_not_exist($pdo_connect, "picture", "id", $id,"图片不存在");
+check_not_exist($pdo_connect, "picture", "id", $id, "图片不存在");
 
 $query_sql = "DELETE FROM picture WHERE id = '$id'";
 $query_result = $pdo_connect->exec($query_sql);

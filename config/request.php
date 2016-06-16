@@ -38,3 +38,31 @@ function postRequest($api, array $params = array(), $timeout = 5)
     curl_close($ch);
     return $response;
 }
+
+/**
+ * 发起一个get请求到指定接口
+ *
+ * @param string $api 请求的接口
+ * @return string 请求结果
+ */
+function getRequest($api)
+{
+    //初始化
+    $curl = curl_init();
+    //设置抓取的url
+    curl_setopt($curl, CURLOPT_URL, $api);
+    //设置获取的信息以文件流的形式返回，而不是直接输出。
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/x-www-form-urlencoded;charset=UTF-8',
+        'Accept: application/json',
+    ));
+
+    //执行命令
+    $data = curl_exec($curl);
+    //关闭URL请求
+    curl_close($curl);
+    //显示获得的数据
+    return $data;
+}
