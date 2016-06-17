@@ -23,12 +23,13 @@ check_empty($id);
 check_not_exist($pdo_connect, "picture", "id", $id, "图片不存在");
 
 $query_sql = "DELETE FROM picture WHERE id = '$id'";
+$delete_collection = "DELETE FROM picture_collection WHERE user_id = '$uid' AND photo_id = '$id'";
 $query_result = $pdo_connect->exec($query_sql);
-
-if ($query_result) {
+$result_delete_collection = $pdo_connect->exec($delete_collection);
+if ($query_result && $result_delete_collection) {
     $result['info'] = "success";
 } else {
-    serverError();
+    $result['info'] = "failed";
 }
 
 echo json_encode($result);
