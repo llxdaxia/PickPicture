@@ -27,5 +27,5 @@ $RECYCLE.BIN/
 out
 gen
 .gitignore
-.idea/workspace.xml
 config/connect_pdo.php
+config/config.php
